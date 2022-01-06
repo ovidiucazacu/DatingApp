@@ -1,1 +1,9 @@
-.dropdown-toggle, .dropdown-item{cursor: pointer;}
+.dropdown-toggle, .dropdown-item{
+  cursor: pointer;
+}
+.avatar{
+  display: inline;
+  max-height: 50px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
