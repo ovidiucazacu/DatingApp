@@ -68,10 +68,15 @@ namespace API.Controllers
         [HttpPost("approve-photo/{photoId}")]
         public async Task<ActionResult> ApprovePhoto(int photoId){
             var photo = await _unitOfWork.PhotoRepository.GetPhotoById(photoId);
+
             if (photo == null) return NotFound("Could not find photo");
+
             photo.IsApproved = true;
+
             var user = await _unitOfWork.UserRepository.GetUserByPhotoId(photoId);
+
             if (!user.Photos.Any(x => x.IsMain)) photo.IsMain = true;
+            
             await _unitOfWork.Complete();
             return Ok();
         }
@@ -82,8 +87,8 @@ namespace API.Controllers
         {
             var photo = await _unitOfWork.PhotoRepository.GetPhotoById(photoId);
             if (photo.PublicId != null) {
-                var result = await
-                _photoService.DeletePhotoAsync(photo.PublicId);
+                var result = await _photoService.DeletePhotoAsync(photo.PublicId);
+                
                 if (result.Result == "ok") {
                     _unitOfWork.PhotoRepository.RemovePhoto(photo);
                 }
